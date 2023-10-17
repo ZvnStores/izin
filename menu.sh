@@ -89,6 +89,59 @@ let tra=$trx/2
 ssx=$(grep -c -E "^## " "/etc/xray/config.json")
 let ssa=$ssx/2
 
+# =========================================
+ssh_service=$(/etc/init.d/ssh status | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+dropbear_service=$(/etc/init.d/dropbear status | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+haproxy_service=$(systemctl status haproxy | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+xray_service=$(systemctl status xray | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+nginx_service=$(systemctl status nginx | grep Active | awk '{print $3}' | cut -d "(" -f2 | cut -d ")" -f1)
+#Status | Geo Project
+clear
+# STATUS SERVICE  SSH 
+if [[ $ssh_service == "running" ]]; then 
+   status_ssh="${green}ON✓${NC}"
+else
+   status_ssh="${z}🔴${NC} "
+fi
+
+# // SSH Websocket Proxy
+ssh_ws=$( systemctl status ws | grep Active | awk '{print $3}' | sed 's/(//g' | sed 's/)//g' )
+if [[ $ssh_ws == "running" ]]; then
+    status_ws_epro="${green}ON✓${NC}"
+else
+    status_ws_epro="${z}🔴${NC} "
+fi
+
+# STATUS SERVICE HAPROXY
+if [[ $haproxy_service == "running" ]]; then 
+   status_haproxy="${green}ON✓${NC}"
+else
+   status_haproxy="${z}🔴${NC} "
+fi
+
+# STATUS SERVICE XRAY
+if [[ $xray_service == "running" ]]; then 
+   status_xray="${green}ON✓${NC}"
+else
+   status_xray="${z}🔴${NC} "
+fi
+
+# STATUS SERVICE NGINX
+if [[ $nginx_service == "running" ]]; then 
+   status_nginx="${green}ON✓${NC}"
+else
+   status_nginx="${z}🔴${NC} "
+fi
+
+# STATUS SERVICE Dropbear
+if [[ $dropbear_service == "running" ]]; then 
+   status_dropbear="${green}ON✓${NC}"
+else
+   status_dropbear="${z}🔴${NC} "
+fi
+
+# =========================================
+
 zheevpn="https://raw.githubusercontent.com/ZvnStores/stores/main/update.sh"
 UDPX="https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1S3IE25v_fyUfCLslnujFBSBMNunDHDk2' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1S3IE25v_fyUfCLslnujFBSBMNunDHDk2"
 # // Exporting Language to UTF-8
@@ -294,10 +347,10 @@ echo -e "${BICyan} ┌───────────────────�
 echo -e "${BICyan} │  ${BIYellow}SSH         VMESS           VLESS          TROJAN $NC" 
 echo -e "${BICyan} │  ${Blue} $ssh1            $vma               $vla               $tra $NC" 
 echo -e "${BICyan} └─────────────────────────────────────────────────────┘${NC}"
-echo -e "${BICyan}╭────────────────╮╭────────────────╮╭──────────────────╮${NC}"
-echo -e "${BICyan}│ ${NC}${BICyan} SSH$NC : $status_ssh" "          ${BICyan}NGINX$NC : $status_nginx"        "${BICyan} XRAY$NC : $status_xray      $NC${BICyan}│$NC" 
-echo -e "${BICyan}│ ${NC}${BICyan} WS-ePRO$NC : $status_ws_epro" "    ${BICyan} DROPBEAR$NC : $status_dropbear" "     ${z} HAPROXY$NC : $status_haproxy   $NC${z}│$NC" 
-echo -e "${BICyan}╰────────────────╯╰────────────────╯╰──────────────────╯${NC}"
+echo -e "${BICyan} ╭────────────────╮╭────────────────╮╭─────────────────╮${NC}"
+echo -e "${BICyan} │ ${NC}${BICyan} SSH$NC : $status_ssh" "        ${BICyan}NGINX$NC : $status_nginx"          "${BICyan} XRAY$NC : $status_xray      $NC${BICyan}│$NC" 
+echo -e "${BICyan} │ ${NC}${BICyan} WS-ePRO$NC : $status_ws_epro" "    ${BICyan} DROPBEAR$NC : $status_dropbear" "     ${z} HAPROXY$NC : $status_haproxy   $NC${z}│$NC" 
+echo -e "${BICyan} ╰────────────────╯╰────────────────╯╰─────────────────╯${NC}"
 echo -e "${BICyan} ┌─────────────────────────────────────────────────────┐${NC}"
 echo -e "${BICyan} │  ${BICyan}[${BIWhite}01${BICyan}] [${BIYellow}Menu${BICyan}] SSH WS    ${BICyan}[${BIWhite}06${BICyan}] [${BIYellow}Menu${BICyan}] SETTING          ${BICyan}│${NC}"
 echo -e "${BICyan} │  ${BICyan}[${BIWhite}02${BICyan}] [${BIYellow}Menu${BICyan}] VMESS     ${BICyan}[${BIWhite}07${BICyan}] [${BIYellow}Menu${BICyan}] Cek Bandwith     ${BICyan}│${NC}"
