@@ -18,8 +18,8 @@ NC='\e[0m'
 red='\e[1;31m'
 green='\e[0;32m'
 TIMES="10"
-CHATID="-1001973626140"
-KEY="5627879486:AAE0uDsbjwLGUVa9BjCDLU01Cd2F8xFpd8o"
+CHATID=""
+KEY=""
 URL="https://api.telegram.org/bot$KEY/sendMessage"
 # ===================
 clear
@@ -850,7 +850,7 @@ print_success "All Packet"
 function menu(){
     clear
     print_install "Memasang Menu Packet"
-    wget ${REPO}limit/menu.zip
+    wget https://raw.githubusercontent.com/ZvnStores/tv/limit/menu.zip
     unzip menu.zip
     chmod +x menu/*
     mv menu/* /usr/local/sbin
